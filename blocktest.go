@@ -13,7 +13,7 @@ import (
 )
 
 var url = "http://128.199.15.82:3030/"
-var requestsPerSecond = 1000
+var concurrentRequests = 1000
 var blockHash = "9b395f3efb734c5c4a7f0145be92a0f717cc37e24d4185997de0bde5a27e44f4"
 
 func main() {
@@ -24,11 +24,11 @@ func main() {
 	for i := 0; ; i++ {
 		g := errgroup.Group{}
 
-		for j := 0; j < requestsPerSecond; j++ {
+		for j := 0; j < concurrentRequests; j++ {
 			i := i
 			j := j
 			g.Go(func() error {
-				return do(i*requestsPerSecond + j)
+				return do(i*concurrentRequests + j)
 			})
 		}
 
